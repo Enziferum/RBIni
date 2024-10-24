@@ -2,25 +2,9 @@
 #include <unordered_map>
 #include <string>
 
+#include "Section.hpp"
+
 namespace rbini {
-
-    class Section {
-    public:
-        Section();
-        Section(const std::string& name);
-        ~Section();
-
-
-        template<typename T>
-        T getValue();
-
-        template<typename T>
-        void setValue(const T& value);
-    private:
-        std::string m_data;
-        std::string m_name;
-    };
-
 
     class RBIniReader {
     public:
