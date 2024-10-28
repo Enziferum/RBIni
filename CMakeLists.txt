@@ -21,8 +21,13 @@ set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 file(GLOB_RECURSE INLCS include/rbini/*.hpp)
 file(GLOB_RECURSE SRC source/*.cpp)
+list(FILTER SRC EXCLUDE REGEX "source/.*main\\.cpp$")
 
-add_executable(${PROJECT_NAME} ${INLCS} ${SRC})
+
+add_library(${PROJECT_NAME} STATIC ${INLCS} ${SRC})
+add_executable(${PROJECT_NAME}-exe source/main.cpp)
+target_link_libraries(${PROJECT_NAME}-exe ${PROJECT_NAME})
+
 target_include_directories(${PROJECT_NAME} PUBLIC
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
         INTERFACE

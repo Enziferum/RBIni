@@ -6,14 +6,14 @@
 
 namespace rbini {
 
-    class RBIniReader {
+    class RBIniParser {
     public:
-        RBIniReader();
-        RBIniReader(const RBIniReader& other) = delete;
-        RBIniReader& operator=(const RBIniReader& other) = delete;
-        RBIniReader(RBIniReader&& other) = delete;
-        RBIniReader& operator=(RBIniReader&& other) = delete;
-        ~RBIniReader();
+        RBIniParser();
+        RBIniParser(const RBIniParser& other) = delete;
+        RBIniParser& operator=(const RBIniParser& other) = delete;
+        RBIniParser(RBIniParser&& other) = delete;
+        RBIniParser& operator=(RBIniParser&& other) = delete;
+        ~RBIniParser();
 
         bool loadFromFile(const std::string& filename);
         bool save2File(const std::string& filename);

@@ -18,7 +18,7 @@ set(TESTS_NAME rbini-tests)
 set(SRC main.cpp RBIni_tests.cpp)
 
 add_executable(${TESTS_NAME} ${SRC})
-target_link_libraries(${TESTS_NAME} PUBLIC GTest::gtest_main)
+target_link_libraries(${TESTS_NAME} PUBLIC GTest::gtest_main PRIVATE rbini)
 
 include(GoogleTest)
 gtest_discover_tests(${TESTS_NAME})

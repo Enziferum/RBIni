@@ -1,17 +1,10 @@
 #pragma once
 #include <string>
+#include <unordered_map>
+
+#include "Value.hpp"
 
 namespace rbini {
-
-    template<typename T>
-    struct value_formatter;
-
-    template<>
-    struct value_formatter<int> {
-        static int read(const std::string& rawData) {
-            return 42;
-        }
-    };
 
 
     class Section {
@@ -24,17 +17,25 @@ namespace rbini {
         Section& operator=(Section&& other) = default;
         ~Section();
 
+
+        Value& operator[](const std::string& key);
+        const Value& operator[](const std::string& key) const;
+
         // std::enable_if_t<std::is_invocable_r_v<T, std::declval() >>
         template<typename T>
-        T getValue() {
-            return value_formatter<T>::read(m_data);
+        T getValue(const std::string& key) {
+            m_values.at(key);
+            //return value_formatter<T>::read(m_data);
         }
 
         template<typename T>
-        void setValue(const T& value);
+        void setValue(const std::string& key, const T& value) {
+            m_values[key];
+            //value_formatter<T>::write(m_data, value);
+        }
     private:
-        std::string m_data;
         std::string m_name;
+        std::unordered_map<std::string, Value> m_values;
     };
 
 }

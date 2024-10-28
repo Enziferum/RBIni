@@ -4,15 +4,11 @@
 
 namespace rbini {
 
-    RBIniReader::RBIniReader() {
+    RBIniParser::RBIniParser() {}
 
-    }
+    RBIniParser::~RBIniParser() = default;
 
-    RBIniReader::~RBIniReader() {
-
-    }
-
-    bool RBIniReader::loadFromFile(const std::string& filename) {
+    bool RBIniParser::loadFromFile(const std::string& filename) {
 
         auto split_string = [](const std::string& str, char sep) {
             auto found = str.find(sep);
@@ -41,26 +37,26 @@ namespace rbini {
             }
 
             auto [key, value] = split_string(line,'=');
-            // currentSection -> setValue(key, value);
+            currentSection -> operator[](key) = Value(value);
         }
 
         return true;
     }
 
-    bool RBIniReader::save2File(const std::string& filename) {
+    bool RBIniParser::save2File(const std::string& filename) {
         return true;
     }
 
 
-    Section& RBIniReader::operator[](const std::string& key) {
+    Section& RBIniParser::operator[](const std::string& key) {
         return m_sections[key];
     }
 
-    const Section& RBIniReader::operator[](const std::string& key) const {
+    const Section& RBIniParser::operator[](const std::string& key) const {
         return m_sections.at(key);
     }
 
-    const std::unordered_map<std::string, Section>& RBIniReader::getSections() const {
+    const std::unordered_map<std::string, Section>& RBIniParser::getSections() const {
         return m_sections;
     }
 

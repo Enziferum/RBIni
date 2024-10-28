@@ -27,11 +27,14 @@ namespace rbini {
 
 int main()
 {
-    rbini::RBIniReader reader;
-    rbini::Section section{"Window"};
+    rbini::RBIniParser parser;
     try {
-        std::cout << "size.x: " << section.getValue<int>() << std::endl;
-        std::cout << "size: " << section.getValue<robot2D::vec2f>() << std::endl;
+        if(!parser.loadFromFile("test.ini")) {
+            return -1;
+        }
+
+        std::cout << "Window size: " << parser["Window"]["size"].as<robot2D::vec2f>() << std::endl;
+
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << std::endl;
