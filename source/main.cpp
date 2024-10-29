@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <vector>
+#include <array>
 
 #include "rbini/Utils.hpp"
 
@@ -34,6 +35,8 @@ namespace rbini {
             value, std::chars_format::fixed, precision
         );
 
+        /*std::string format = "{:." + std::to_string(precision) + "}";
+        "{:.2f}"*/
         std::string s(buffer.data(), ptr);
         return s;
     }

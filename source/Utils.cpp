@@ -5,7 +5,7 @@ namespace rbini {
     std::pair<std::string, std::string> split_2(const std::string& s, char delim) {
         auto found = s.find_first_of(delim);
         auto s1 = s.substr(0, found);
-        auto s2 = s.substr(s.length() - found - 1);
+        auto s2 = s.substr(found + 1, s.length() - found - 1);
         return std::make_pair(s1, s2);
     }
 
