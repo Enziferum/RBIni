@@ -15,7 +15,7 @@ enable_testing()
 set(CMAKE_CXX_STANDARD 17)
 set(TESTS_NAME rbini-tests)
 
-set(SRC main.cpp RBIni_tests.cpp)
+set(SRC main.cpp RBIni_tests.cpp Section_tests.cpp Utils_tests.cpp Value_tests.cpp)
 
 add_executable(${TESTS_NAME} ${SRC})
 target_link_libraries(${TESTS_NAME} PUBLIC GTest::gtest_main PRIVATE rbini)
