@@ -21,18 +21,7 @@ namespace rbini {
         Value& operator[](const std::string& key);
         const Value& operator[](const std::string& key) const;
 
-        // std::enable_if_t<std::is_invocable_r_v<T, std::declval() >>
-        template<typename T>
-        T getValue(const std::string& key) {
-            m_values.at(key);
-            //return value_formatter<T>::read(m_data);
-        }
-
-        template<typename T>
-        void setValue(const std::string& key, const T& value) {
-            m_values[key];
-            //value_formatter<T>::write(m_data, value);
-        }
+        const std::unordered_map<std::string, Value>& getValues() const;
     private:
         std::string m_name;
         std::unordered_map<std::string, Value> m_values;

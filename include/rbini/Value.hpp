@@ -53,15 +53,29 @@ namespace rbini {
     class Value {
     public:
         Value() = default;
-        Value(const std::string& data): m_data{data} {}
+        explicit Value(const std::string& data);
+        Value(const Value& other) = default;
+        Value& operator=(const Value& other) = default;
+        Value(Value&& other) = default;
+        Value& operator=(Value&& other) = default;
         ~Value() = default;
 
 
         template<typename T>
-        T as() {
+        void setAs(T&& data) {
+            m_data = value_formatter<T>::write(std::forward<T>(data));
+        }
+
+        void setRaw(const std::string& data) { m_data = data; }
+
+        template<typename T>
+        T as() const {
             return value_formatter<T>::read(m_data);
         }
+
+        const std::string& asRaw() const { return m_data; }
     private:
         std::string m_data;
     };
+
 }

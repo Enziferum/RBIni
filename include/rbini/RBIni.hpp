@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <string>
+#include <vector>
 
 #include "Section.hpp"
 
@@ -21,6 +22,8 @@ namespace rbini {
         Section& operator[](const std::string& key);
         const Section& operator[](const std::string& key) const;
         const std::unordered_map<std::string, Section>& getSections() const;
+    private:
+        void parseFromMemory(std::vector<char> buffer);
     private:
         std::unordered_map<std::string, Section> m_sections;
     };

@@ -1,6 +1,8 @@
 #include <fstream>
 #include <algorithm>
+
 #include "rbini/RBIni.hpp"
+#include "rbini/Utils.hpp"
 
 namespace rbini {
 
@@ -9,14 +11,6 @@ namespace rbini {
     RBIniParser::~RBIniParser() = default;
 
     bool RBIniParser::loadFromFile(const std::string& filename) {
-
-        auto split_string = [](const std::string& str, char sep) {
-            auto found = str.find(sep);
-            std::string line1 = str.substr(0, found);
-            std::string line2 = str.substr(found + 1, str.length() - found - 1);
-            return std::make_pair(line1, line2);
-        };
-
         std::ifstream file(filename);
         if (!file.is_open()) {
             return false;
@@ -36,7 +30,7 @@ namespace rbini {
                 currentSection = &m_sections[key];
             }
 
-            auto [key, value] = split_string(line,'=');
+            auto [key, value] = split_2(line, '=');
             currentSection -> operator[](key) = Value(value);
         }
 
@@ -44,6 +38,25 @@ namespace rbini {
     }
 
     bool RBIniParser::save2File(const std::string& filename) {
+
+        std::ofstream file(filename);
+        if (!file.is_open()) {
+            return false;
+        }
+
+        for(const auto& [key, section] : m_sections) {
+            std::string sectionName = '[' + key + ']';
+            file.write(sectionName.c_str(), sectionName.size());
+            file.write("\n", 1);
+            for(const auto& [key, value] : section.getValues()) {
+                std::string line = key + '=' + value.asRaw();
+                file.write(line.c_str(), line.size());
+                file.write("\n", 1);
+            }
+        }
+
+        file.close();
+
         return true;
     }
 
