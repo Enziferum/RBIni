@@ -6,7 +6,6 @@
 
 namespace rbini {
 
-
     class Section {
     public:
         Section();

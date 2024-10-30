@@ -22,3 +22,9 @@ target_link_libraries(${TESTS_NAME} PUBLIC GTest::gtest_main PRIVATE rbini)
 
 include(GoogleTest)
 gtest_discover_tests(${TESTS_NAME})
+
+add_custom_command(
+        TARGET ${TESTS_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/res/
+        ${CMAKE_CURRENT_BINARY_DIR}/res/)

@@ -61,8 +61,8 @@ namespace rbini {
         ~Value() = default;
 
         template<typename T>
-        void setAs(T&& data) {
-            m_data = value_formatter<T>::write(std::forward<T>(data));
+        void setAs(const T& data) {
+            m_data = value_formatter<T>::write(data);
         }
 
         template<typename T>
