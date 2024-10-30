@@ -6,18 +6,41 @@
 
 namespace rbini {
 
+    struct RBParserConfig {
+        bool severalSectionNames { false };
+    };
+
+    class RBIniException : public std::runtime_error {
+    public:
+        explicit RBIniException(const std::string &msg) : std::runtime_error(msg) {}
+        const char* what() const noexcept override {
+            auto msg = std::runtime_error::what();
+            m_outMessage = std::string{"RBIniParser Exception: "} + msg;
+            return m_outMessage.c_str();
+        }
+
+    private:
+        mutable std::string m_outMessage;
+    };
+
+
     RBIniParser::RBIniParser() {}
 
     RBIniParser::~RBIniParser() = default;
 
+
     bool RBIniParser::loadFromFile(const std::string& filename) {
+        RBParserConfig m_config;
+        m_config.severalSectionNames = true;
+
         std::ifstream file(filename);
         if (!file.is_open()) {
             return false;
         }
 
         std::string line;
-        Section* currentSection{nullptr};
+        Section* currentSection{ nullptr };
+
         while(std::getline( file, line)) {
             if(line.starts_with('#') || line.starts_with(';')) {
                 continue; // comment
@@ -25,12 +48,15 @@ namespace rbini {
 
             if(line.starts_with('[')) {
                 std::string key = line.substr(1, line.size() - 2);
-                key.erase(std::remove_if(key.begin(), key.end(),
-                                        [](const char& symbol) { return symbol == ' '; }), key.end());
+                key.erase(std::remove_if(key.begin(), key.end(),[](const char& symbol) {
+                    return symbol == ' ';
+                }), key.end());
                 currentSection = &m_sections[key];
             }
 
             auto [key, value] = split_2(line, '=');
+            if(currentSection == nullptr)
+                throw RBIniException("Invalid Section");
             currentSection -> operator[](key) = Value(value);
         }
 

@@ -22,11 +22,11 @@ TEST(RBIniParser, LoadFileBad) {
 
 
 TEST(RBIniParser, LoadFileException) {
-    std::string exceptionMessage;
+    std::string exceptionMessage = "RBIniParser Exception: Invalid Section";
     rbini::RBIniParser parser;
 
     try {
-        parser.loadFromFile(correctIniPath);
+        parser.loadFromFile(badIniPath);
         FAIL();
     }
     catch (const std::exception& e) {
